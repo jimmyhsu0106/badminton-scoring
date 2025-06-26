@@ -1,0 +1,46 @@
+let score1 = 0;
+let score2 = 0;
+const score1Element = document.getElementById('score1');
+const score2Element = document.getElementById('score2');
+const player1Input = document.getElementById('player1');
+const player2Input = document.getElementById('player2');
+const scoreHistoryList = document.getElementById('scoreHistory');
+let scoreHistory = [];
+
+function updateNames() {
+    const name1 = player1Input.value.trim() || '選手一';
+    const name2 = player2Input.value.trim() || '選手二';
+    player1Input.value = name1;
+    player2Input.value = name2;
+}
+
+function incrementScore(player) {
+    updateNames();
+    const name1 = player1Input.value;
+    const name2 = player2Input.value;
+    const previousScore = `${name1}: ${score1} - ${name2}: ${score2}`;
+
+    if (player === 1) {
+        score1++;
+    } else if (player === 2) {
+        score2++;
+    }
+
+    score1Element.textContent = score1;
+    score2Element.textContent = score2;
+
+    scoreHistory.push(previousScore + ` -> ${name1}: ${score1} - ${name2}: ${score2}`);
+    updateScoreHistory();
+}
+
+function updateScoreHistory() {
+    scoreHistoryList.innerHTML = '';
+    for (const score of scoreHistory) {
+        const listItem = document.createElement('li');
+        listItem.textContent = score;
+        scoreHistoryList.appendChild(listItem);
+    }
+}
+
+// 初始載入時更新一次名稱，避免輸入框空白
+updateNames();
